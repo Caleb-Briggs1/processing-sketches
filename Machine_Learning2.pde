@@ -1,6 +1,6 @@
  float printReslast2 = 0;
  float printRes = 0;
-import java.util.Collections;
+import java.util.Collections; 
 ArrayList Barriers = new ArrayList(); //rect only support currently 
 ArrayList Rect1 = new ArrayList(); //First Rect
 ArrayList Rect2 = new ArrayList(); //Second Rect
