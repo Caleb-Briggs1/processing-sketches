@@ -80,7 +80,7 @@ float RadtoAng (float angle) {
 float angleToRadians (float angle) { 
   return (angle *PI) / 180;
 }
-float[] lineD(float direction2, float len, float posX, float posY) { //return true if hit
+float[] lineD(float direction2, float len, float posX, float posY) { 
   float direction = angleToRadians(direction2);
   float[] b = {posX+ (len* sin(direction)), posY+(len * cos(direction))};
   return b;
