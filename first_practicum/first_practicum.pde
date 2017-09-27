@@ -5,15 +5,15 @@
 */
 int size = 12950; //amount of nodes
 ArrayList positions = new ArrayList();
-flutter[] Test = new flutter[size]; 
+ArrayList Test = new ArrayList(); 
 
 void setup() {
   float x = 700;
   float y = 400;
   float direction = 0;
   for (int i = 0; size > i; i++) {
-    
-    Test[i] = new flutter();
+    flutter temp = = new flutter();
+    Test.add( 
     float[] val = lineD(direction,i/10,x,y); //i/10 == Size
     direction += 16.5; // --> how the direction changes
     Test[i].init(val[0],val[1],15+i/30); //for 15+i/30 --> startval + growSpeed
