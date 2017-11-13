@@ -7,7 +7,7 @@ void setup() {
   billy.mask(billy);
 }
 void draw() {
-  //image(billy,random(width),random(height),random(width),random(height));
-  //filter(ERODE);
-  //billy.mask(billy);
+  image(billy,random(width),random(height),random(width),random(height));
+  filter(ERODE);
+  billy.mask(billy);
 }
