@@ -3,6 +3,7 @@
 //splash range
 //wave mode add 
 //summoners
+//add walls to ai, use only if size of other army is large enough
 import processing.sound.*;
 SoundFile file;
 int size = 5669; //red
@@ -10,6 +11,7 @@ ArrayList fit = new ArrayList();
 int size2 = 3510; //green
 ArrayList fit2 = new ArrayList();
 int death1, death2 = 0;
+float pq = 1.25;
 PImage a_;
  PImage b_;
  PImage c_;
@@ -21,7 +23,12 @@ PImage a_;
   PImage i_;
   PImage j_;
   PImage k_;
+  PImage l_;
+  PImage m_;
+  PImage n_;
+  
 void setup() {
+  
   a_ = loadImage("archer.png");
    b_ = loadImage("archer2.png");
    c_ = loadImage("test2.png");
@@ -33,13 +40,28 @@ void setup() {
    i_ = loadImage("wiz2.png");
    j_ = loadImage("wiz.png");
    k_ = loadImage("wall.png");
-  file = new SoundFile(this, "a.wav");
-  file.play();
+   l_ = loadImage("abe.png");
+   m_ = loadImage("cannon.png");
+    n_ = loadImage("crys.png");
+   
+  file = new SoundFile(this, "a.mp3");
+  
   fullScreen();
-  fit.add(new warrior( width-150, height/2,5000,.1,1,0));
+  fit.add(new warrior( width-150, height/2,15000,.1,1,0));
+   
    ((warrior)fit.get(0)).range = 200;
-  fit2.add(new warrior( 150, height/2,5000,.1,1,0));
+     fit.add(new warrior( width-150-150, height/2-150,5000,.25,1,10));
+   
+   ((warrior)fit.get(1)).range = 200;
+        fit.add(new warrior( width-150-150, height/2+150,5000,.25,1,10));
+   
+   ((warrior)fit.get(2)).range = 200;
+  fit2.add(new warrior( 150, height/2,15000,.1,1,0));
    ((warrior)fit2.get(0)).range = 200;
+     fit2.add(new warrior( 250, height/2+150,5000,.25,1,10));
+   ((warrior)fit2.get(1)).range = 200;
+    fit2.add(new warrior( 250, height/2-150,5000,.25,1,10));
+   ((warrior)fit2.get(2)).range = 200;
   for (int i = 0; 100 > i; i++) {
      
       fit.add( new warrior( width-random(50), random(height),15,1,1,1));
@@ -50,6 +72,7 @@ void setup() {
   for (int i = 0; 100 > i; i++) {
     fit2.add( new warrior( 0+random(50), random(height),15,1,1,1));
   }
+   file.play();
  
 }
 float money1 = 1000;
@@ -62,7 +85,7 @@ int waitTime = 0;
 info[] ts = new info[50];
 float past = 5000;
 void draw( ){
-  
+ 
   //stats
   background(255);
   if (waitTime == 0) {
@@ -150,7 +173,7 @@ void draw( ){
   text(str(money2),50,50);
    text(str(money1),width-50,50);
    
-   if ( (fit.size() == 1 && ((warrior)fit.get(0)).hp != past) || (int)random(0,100) == 1 ) {
+   if ( (fit.size() == 1 && ((warrior)fit.get(0)).hp != past) || (int)random(0,200) == 1 ) {
      if ((int)random(0,5) == 1) {
      spend = true;
      past = ((warrior)fit.get(0)).hp;
@@ -166,12 +189,12 @@ void draw( ){
   } 
     if (money1 > 300 && (int)random(2) == 1) {
     money1 -= 300;
-    fit.add(new warrior(width, random(height),5,1,1,2));
-    ((warrior)fit.get(fit.size()-1)).range = 50;
+    fit.add(new warrior(width, random(height),4,1,1,2));
+    ((warrior)fit.get(fit.size()-1)).range = 40;
   }
   if (money1 > 450 && (int)random(15) == 1) {
     money1 -= 450;
-    fit.add(new warrior(width, random(height),50,2,1,3));
+    fit.add(new warrior(width, random(height),150,2,1,3));
     
   }
   if (money1 > 1500 && int(random(10)) == 1) {
@@ -184,6 +207,17 @@ void draw( ){
     fit.add(new warrior(width, random(height),10,5,.5,6));
     ((warrior)fit.get(fit.size()-1)).range = 20;
   }
+   if ((money1 > 2000) && (int(random(10)) == 1||money1>8000)) {
+      money1 -= 2000;
+    fit.add(new warrior(width, random(height),random(500),0,random(3),9));
+    
+  }
+  if ((money1 > 1000) && (int(random(30)) == 1)) {
+      money1 -= 1000;
+     
+    fit.add(new warrior(width - 200 - random(100), height/2+random(-70,70),1000,5,0,7));
+    
+  }
   }
    
   if (money2 > 50 && key == '1' && keyPressed) {
@@ -192,12 +226,12 @@ void draw( ){
   }
   if (money2 > 300 && key == '2' && keyPressed) {
     money2 -= 300;
-    fit2.add(new warrior(0, random(height),5,1,1,2));
-    ((warrior)fit2.get(fit2.size()-1)).range = 50;
+    fit2.add(new warrior(0, random(height),4,1,1,2));
+    ((warrior)fit2.get(fit2.size()-1)).range = 40;
   }
   if (money2 > 450 && key == '3' && keyPressed) {
     money2 -= 450;
-    fit2.add(new warrior(0, random(height),50,2,1,3));
+    fit2.add(new warrior(0, random(height),150,2,1,3));
     
   }
   if (money2 > 150 && key == '4' && keyPressed) {
@@ -220,6 +254,20 @@ void draw( ){
     fit2.add(new warrior(random(100) + 200, height/2+random(-70,70),1000,5,0,7));
     ((warrior)fit2.get(fit2.size()-1)).range = 20;
   }
+   if (money2 > 2000 && key == '8' && keyPressed) {
+    money2 -= 2000;
+    fit2.add(new warrior(random(100) + 200, height/2+random(-70,70),125,4,0,8));
+    ((warrior)fit2.get(fit2.size()-1)).range = 300;
+  }
+   if (money2 > 2000 && key == '9' && keyPressed) {
+    money2 -= 2000;
+    fit2.add(new warrior(0, random(height),random(250),0,random(0.5,3),9));
+    
+  }
+  // if (money2 > 2000 && key == '9' && keyPressed) {
+   // money2 -= 2000;
+   // fit2.add(new warrior(0, random(height),300,0,1,10)); 
+ // }
    
 
   
@@ -247,7 +295,7 @@ void play() {
   for (int i = 0; fit2.size() > i; i++) { //upddate dead
     
      if ( ((warrior)fit2.get(i)).dead()) {
-        float[] mon = {50,300,450,300,1500,1500,1000};
+        float[] mon = {50/pq,300/pq,450/pq,300/pq,1500/pq,1500/pq,1000/pq,2000/pq,2000/pq,5000/pq};
        if (((warrior)fit2.get(i)).type-1 == -1) {
          exit();
        }
@@ -258,7 +306,7 @@ void play() {
   }
   for (int i = 0; fit.size() > i; i++) {
      if ( ((warrior)fit.get(i)).dead()) {
-       float[] mon = {50,300,450,300,1500,1500,1000};
+       float[] mon = {50/pq,300/pq,450/pq,300/pq,1500/pq,1500/pq,1000/pq,2000/pq,2000/pq,5000/pq};
        
        money2 += mon[((warrior)fit.get(i)).type-1];
        
@@ -309,7 +357,7 @@ class warrior {
       
       noTint();
       fill(hp/4,0,0);
-      rect(x,y,hp/100,10);
+      rect(x,y,hp/500,10);
        image(h_,x,y,55,55);
     }
     if (type2 == 1) {
@@ -346,9 +394,26 @@ class warrior {
       if (type == 6 && type2 == 1) {
         image(j_,x,y,25,25);
       }
-      if (type == 7 && type2 == 2) {
+      if (type == 7) {
         image(k_,x,y,25,25);
       }
+      
+      if (type == 8 && type2 == 2) {
+        image(m_,x,y,55,55);
+      }
+       if (type == 9 && type2 == 2) {
+        image(l_,x,y,35,35);
+      }
+      if (type == 9 && type2 == 1) {
+        image(l_,x,y,35,35);
+      }
+      if (type == 10) {
+      
+      noTint();
+      fill(hp/4,0,0);
+
+       image(n_,x,y,55,55);
+    }
     //for now it will just point to middle
     
     
@@ -450,6 +515,32 @@ class warrior {
       }
     }
     }
+    if (type == 10) {
+      
+    if ((!(lowDist < range))) { //if out of range
+    
+       float[] targetLoc = { ((warrior)pos.get(index)).x,((warrior)pos.get(index)).y};
+      
+      float[] xy = getXY(x,y,targetLoc[0],targetLoc[1]);
+     
+    }
+     else {//fight
+     //float[] targetLoc = { ((warrior)pos.get(index)).x,((warrior)pos.get(index)).y};
+     //line(x,y,targetLoc[0],targetLoc[1]);
+      if (((warrior)pos.get(index)).canAttack && lowDist < 5) {
+      
+      hp = hp - ((warrior)pos.get(index)).atk; //upddate ur hp
+      ((warrior)pos.get(index)).canAttack = false;
+      }
+      if (canAttack) {
+         float[] targetLoc = { ((warrior)pos.get(index)).x,((warrior)pos.get(index)).y};
+         stroke(250,0,0,120);
+        line(x,y,targetLoc[0],targetLoc[1]);
+      ((warrior)pos.get(index)).hp -= atk; //update its hp
+      canAttack = false;
+      }
+    }
+    }
    if (type == 5) {
       
     if ((!(lowDist < range))) { //if out of range
@@ -525,6 +616,67 @@ class warrior {
       if (canAttack) {
       ((warrior)pos.get(index)).hp -= atk; //update its hp
       canAttack = false;
+      }
+    }
+    }
+    if (type == 8) {
+      hp-=.25;
+    if ((!(lowDist < range))) { //if out of range
+    
+       
+      
+       float[] targetLoc = { ((warrior)pos.get(index)).x,((warrior)pos.get(index)).y};
+      
+      float[] xy = getXY(x,y,targetLoc[0],targetLoc[1]);
+      x += xy[0]*runspeed;
+      y += xy[1]*runspeed;
+    }
+     else {//fight
+     //float[] targetLoc = { ((warrior)pos.get(index)).x,((warrior)pos.get(index)).y};
+     //line(x,y,targetLoc[0],targetLoc[1]);
+     
+      if (((warrior)pos.get(index)).canAttack && lowDist < 5) {
+      
+      hp = hp - ((warrior)pos.get(index)).atk; //upddate ur hp
+      ((warrior)pos.get(index)).canAttack = false;
+      }
+      if (canAttack) {
+      ((warrior)pos.get(index)).hp -= atk; //update its hp
+      canAttack = false;
+      }
+    }
+    }
+    if (type == 9) {
+    if ( (!(lowDist < 5)))  { 
+    float[] targetLoc = { ((warrior)pos.get(index)).x,((warrior)pos.get(index)).y};
+     float[] xy;
+    if (!(wind)) {
+      
+    xy = getXY(x,y,targetLoc[0],targetLoc[1]);
+    }
+    else {
+      xy = getXY(x,y,mouseX,mouseY);
+    }
+    x += xy[0]*runspeed;
+    y += xy[1]*runspeed;
+    }
+    else {//fight
+    if (((warrior)pos.get(index)).canAttack && lowDist < 5) {
+      
+      hp = hp - ((warrior)pos.get(index)).atk; //upddate ur hp
+      ((warrior)pos.get(index)).canAttack = false;
+      }
+      if (type2 == 2 && ((warrior)pos.get(index)).type != 0 && ((warrior)pos.get(index)).type != 9 && ((warrior)pos.get(index)).type != 10) {
+        fit2.add(new warrior(((warrior)pos.get(index)).x,((warrior)pos.get(index)).y, ((warrior)pos.get(index)).hp,((warrior)pos.get(index)).atk,((warrior)pos.get(index)).runspeed,((warrior)pos.get(index)).type));
+        ((warrior)fit2.get(fit2.size()-1)).range =((warrior)pos.get(index)).range;
+        fit.remove(index);
+        //fit2.add(new warrior();
+      }
+      if (type2 == 1 && ((warrior)pos.get(index)).type != 0 && ((warrior)pos.get(index)).type != 9 && ((warrior)pos.get(index)).type != 10) {
+        fit.add(new warrior(((warrior)pos.get(index)).x,((warrior)pos.get(index)).y, ((warrior)pos.get(index)).hp,((warrior)pos.get(index)).atk,((warrior)pos.get(index)).runspeed,((warrior)pos.get(index)).type));
+        ((warrior)fit.get(fit.size()-1)).range =((warrior)pos.get(index)).range;
+        fit2.remove(index);
+        //fit2.add(new warrior();
       }
     }
     }
