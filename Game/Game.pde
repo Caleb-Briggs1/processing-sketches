@@ -1,34 +1,34 @@
-//Spells
-//catapult
-//splash range
-//wave mode add 
-//summoners
-//add walls to ai, use only if size of other army is large enough
-import processing.sound.*;
-SoundFile file;
-int size = 5669; //red
-ArrayList fit = new ArrayList();
-int size2 = 3510; //green
-ArrayList fit2 = new ArrayList();
-int death1, death2 = 0;
+
+import processing.sound.*; //imports processing
+
+
+
+SoundFile file; //creates object
+
+
+//int size = 5669; //Error:unneeded
+ArrayList AI = new ArrayList(); //ai
+//int size2 = 3510; //Error:unneeded
+ArrayList team1 = new ArrayList(); //this is player
+int death1, death2 = 0; //Error: unneeded
 float pq = 1.25;
 PImage a_;
  PImage b_;
  PImage c_;
  PImage d_;
  PImage e_;
-  PImage f_;
-  PImage g_;
-  PImage h_;
-  PImage i_;
-  PImage j_;
-  PImage k_;
-  PImage l_;
-  PImage m_;
-  PImage n_;
+ PImage f_;
+ PImage g_;
+ PImage h_;
+ PImage i_;
+ PImage j_;
+ PImage k_;
+ PImage l_;
+ PImage m_;
+
   
 void setup() {
-  
+  float startSize = 100;
   a_ = loadImage("archer.png");
    b_ = loadImage("archer2.png");
    c_ = loadImage("test2.png");
@@ -42,35 +42,30 @@ void setup() {
    k_ = loadImage("wall.png");
    l_ = loadImage("abe.png");
    m_ = loadImage("cannon.png");
-    n_ = loadImage("crys.png");
-   
   file = new SoundFile(this, "a.mp3");
-  
   fullScreen();
-  fit.add(new warrior( width-150, height/2,15000,.1,1,0));
+  AI.add(new warrior( width-150, height/2,15000,.1,1,0));
+   ((warrior)AI.get(0)).range = 200;
+     AI.add(new warrior( width-150-150, height/2-150,5000,.25,1,10));
+   ((warrior)AI.get(1)).range = 200;
+        AI.add(new warrior( width-150-150, height/2+150,5000,.25,1,10));
+   ((warrior)AI.get(2)).range = 200;
+  team1.add(new warrior( 150, height/2,15000,.1,1,0));
+   ((warrior)team1.get(0)).range = 200;
+     team1.add(new warrior( 250, height/2+150,5000,.25,1,10));
+   ((warrior)team1.get(1)).range = 200;
+    team1.add(new warrior( 250, height/2-150,5000,.25,1,10));
+   ((warrior)team1.get(2)).range = 200;
    
-   ((warrior)fit.get(0)).range = 200;
-     fit.add(new warrior( width-150-150, height/2-150,5000,.25,1,10));
-   
-   ((warrior)fit.get(1)).range = 200;
-        fit.add(new warrior( width-150-150, height/2+150,5000,.25,1,10));
-   
-   ((warrior)fit.get(2)).range = 200;
-  fit2.add(new warrior( 150, height/2,15000,.1,1,0));
-   ((warrior)fit2.get(0)).range = 200;
-     fit2.add(new warrior( 250, height/2+150,5000,.25,1,10));
-   ((warrior)fit2.get(1)).range = 200;
-    fit2.add(new warrior( 250, height/2-150,5000,.25,1,10));
-   ((warrior)fit2.get(2)).range = 200;
-  for (int i = 0; 100 > i; i++) {
+  for (int i = 0; startSize > i; i++) {
      
-      fit.add( new warrior( width-random(50), random(height),15,1,1,1));
+      AI.add( new warrior( width-random(50), random(height),15,1,1,1));
   
     
   
   }
-  for (int i = 0; 100 > i; i++) {
-    fit2.add( new warrior( 0+random(50), random(height),15,1,1,1));
+  for (int i = 0; startSize > i; i++) {
+    team1.add( new warrior( 0+random(50), random(height),15,1,1,1));
   }
    file.play();
  
@@ -89,10 +84,10 @@ void draw( ){
   //stats
   background(255);
   if (waitTime == 0) {
-    for (int i = 0; fit.size() > i; i++ ) {
+    for (int i = 0; AI.size() > i; i++ ) {
           
      
-          ((warrior)fit.get(i)).wind = false;
+          ((warrior)AI.get(i)).wind = false;
           
         }
         
@@ -114,9 +109,9 @@ void draw( ){
       ts[i].update();
       if (ts[i].done) {
         sadfhwioasdf = 0;
-        for (int j =0; fit.size() > j; j++) {
+        for (int j =0; AI.size() > j; j++) {
           try {
-        ((warrior)fit.get(i)).shoot(x1,x2);
+        ((warrior)AI.get(i)).shoot(x1,x2);
           }
           catch (IndexOutOfBoundsException e) {
             print("error");
@@ -159,10 +154,10 @@ void draw( ){
         x1 = mouseX;
         x2 = mouseY;
         key = 'z';
-        for (int i = 0; fit.size() > i; i++ ) {
-          if (abs(( ((warrior)fit.get(i)).x-mouseX)+ abs(( ((warrior)fit.get(i)).y-mouseY))) < 150 ) {
+        for (int i = 0; AI.size() > i; i++ ) {
+          if (abs(( ((warrior)AI.get(i)).x-mouseX)+ abs(( ((warrior)AI.get(i)).y-mouseY))) < 150 ) {
      
-          ((warrior)fit.get(i)).wind = true;
+          ((warrior)AI.get(i)).wind = true;
           }
           
         }
@@ -173,10 +168,10 @@ void draw( ){
   text(str(money2),50,50);
    text(str(money1),width-50,50);
    
-   if ( (fit.size() == 1 && ((warrior)fit.get(0)).hp != past) || (int)random(0,200) == 1 ) {
+   if ( (AI.size() == 1 && ((warrior)AI.get(0)).hp != past) || (int)random(0,200) == 1 ) {
      if ((int)random(0,5) == 1) {
      spend = true;
-     past = ((warrior)fit.get(0)).hp;
+     past = ((warrior)AI.get(0)).hp;
      }
    }
    if (money1 < 100) {
@@ -185,93 +180,93 @@ void draw( ){
   if (spend == true) {   
   if (money1 > 50 && (int)random(3) == 1) {
     money1 -= 50;
-    fit.add(new warrior(width, random(height),7,1,1,1));
+    AI.add(new warrior(width, random(height),7,1,1,1));
   } 
     if (money1 > 300 && (int)random(2) == 1) {
     money1 -= 300;
-    fit.add(new warrior(width, random(height),4,1,1,2));
-    ((warrior)fit.get(fit.size()-1)).range = 40;
+    AI.add(new warrior(width, random(height),4,1,1,2));
+    ((warrior)AI.get(AI.size()-1)).range = 40;
   }
   if (money1 > 450 && (int)random(15) == 1) {
     money1 -= 450;
-    fit.add(new warrior(width, random(height),150,2,1,3));
+    AI.add(new warrior(width, random(height),150,2,1,3));
     
   }
   if (money1 > 1500 && int(random(10)) == 1) {
     money1 -= 1500;
-    fit.add(new warrior(width, random(height),100,50,.5,5));
-    ((warrior)fit.get(fit.size()-1)).range = 250;
+    AI.add(new warrior(width, random(height),100,50,.5,5));
+    ((warrior)AI.get(AI.size()-1)).range = 250;
   }
   if ((money1 > 1500) && (int(random(21)) == 1||money1>8000)) {
       money1 -= 1500;
-    fit.add(new warrior(width, random(height),10,5,.5,6));
-    ((warrior)fit.get(fit.size()-1)).range = 20;
+    AI.add(new warrior(width, random(height),10,5,.5,6));
+    ((warrior)AI.get(AI.size()-1)).range = 20;
   }
    if ((money1 > 2000) && (int(random(10)) == 1||money1>8000)) {
       money1 -= 2000;
-    fit.add(new warrior(width, random(height),random(500),0,random(3),9));
+    AI.add(new warrior(width, random(height),random(500),0,random(3),9));
     
   }
   if ((money1 > 1000) && (int(random(30)) == 1)) {
       money1 -= 1000;
      
-    fit.add(new warrior(width - 200 - random(100), height/2+random(-70,70),1000,5,0,7));
+    AI.add(new warrior(width - 200 - random(100), height/2+random(-70,70),1000,5,0,7));
     
   }
   }
    
   if (money2 > 50 && key == '1' && keyPressed) {
     money2 -= 50;
-    fit2.add(new warrior(0, random(height),7,1,1,1));
+    team1.add(new warrior(0, random(height),7,1,1,1));
   }
   if (money2 > 300 && key == '2' && keyPressed) {
     money2 -= 300;
-    fit2.add(new warrior(0, random(height),4,1,1,2));
-    ((warrior)fit2.get(fit2.size()-1)).range = 40;
+    team1.add(new warrior(0, random(height),4,1,1,2));
+    ((warrior)team1.get(team1.size()-1)).range = 40;
   }
   if (money2 > 450 && key == '3' && keyPressed) {
     money2 -= 450;
-    fit2.add(new warrior(0, random(height),150,2,1,3));
+    team1.add(new warrior(0, random(height),150,2,1,3));
     
   }
   if (money2 > 150 && key == '4' && keyPressed) {
     money2 -= 150;
-    fit2.add(new warrior(width, random(height),3,1,2,1));
+    team1.add(new warrior(width, random(height),3,1,2,1));
     
   }
   if (money2 > 1500 && key == '5' && keyPressed) {
     money2 -= 1500;
-    fit2.add(new warrior(0, random(height),100,50,.5,5));
-    ((warrior)fit2.get(fit2.size()-1)).range = 250;
+    team1.add(new warrior(0, random(height),100,50,.5,5));
+    ((warrior)team1.get(team1.size()-1)).range = 250;
   }
   if (money2 > 1500 && key == '6' && keyPressed) {
     money2 -= 1500;
-    fit2.add(new warrior(0, random(height),10,5,.5,6));
-    ((warrior)fit2.get(fit2.size()-1)).range = 20;
+    team1.add(new warrior(0, random(height),10,5,.5,6));
+    ((warrior)team1.get(team1.size()-1)).range = 20;
   }
   if (money2 > 1000 && key == '7' && keyPressed) {
     money2 -= 1000;
-    fit2.add(new warrior(random(100) + 200, height/2+random(-70,70),1000,5,0,7));
-    ((warrior)fit2.get(fit2.size()-1)).range = 20;
+    team1.add(new warrior(random(100) + 200, height/2+random(-70,70),1000,5,0,7));
+    ((warrior)team1.get(team1.size()-1)).range = 20;
   }
    if (money2 > 2000 && key == '8' && keyPressed) {
     money2 -= 2000;
-    fit2.add(new warrior(random(100) + 200, height/2+random(-70,70),125,4,0,8));
-    ((warrior)fit2.get(fit2.size()-1)).range = 300;
+    team1.add(new warrior(random(100) + 200, height/2+random(-70,70),125,4,0,8));
+    ((warrior)team1.get(team1.size()-1)).range = 300;
   }
    if (money2 > 2000 && key == '9' && keyPressed) {
     money2 -= 2000;
-    fit2.add(new warrior(0, random(height),random(250),0,random(0.5,3),9));
+    team1.add(new warrior(0, random(height),random(250),0,random(0.5,3),9));
     
   }
   // if (money2 > 2000 && key == '9' && keyPressed) {
    // money2 -= 2000;
-   // fit2.add(new warrior(0, random(height),300,0,1,10)); 
+   // team1.add(new warrior(0, random(height),300,0,1,10)); 
  // }
    
 
   
-  //fit.add(new warrior(random(width/2,width), random(height),15,3));
+  //AI.add(new warrior(random(width/2,width), random(height),15,3));
   play();
 }
 
@@ -282,36 +277,36 @@ void play() {
   money1 += 5;
   money2 += 5;
   }
-  for (int i = 0; fit.size() > i; i++) {
+  for (int i = 0; AI.size() > i; i++) {
      
-    ((warrior)fit.get(i)).update(fit2,1);
+    ((warrior)AI.get(i)).update(team1,1);
     
   }
-   for (int i = 0; fit2.size() > i; i++) {
+   for (int i = 0; team1.size() > i; i++) {
      
-    ((warrior)fit2.get(i)).update(fit,2);
+    ((warrior)team1.get(i)).update(AI,2);
   }
   
-  for (int i = 0; fit2.size() > i; i++) { //upddate dead
+  for (int i = 0; team1.size() > i; i++) { //upddate dead
     
-     if ( ((warrior)fit2.get(i)).dead()) {
+     if ( ((warrior)team1.get(i)).dead()) {
         float[] mon = {50/pq,300/pq,450/pq,300/pq,1500/pq,1500/pq,1000/pq,2000/pq,2000/pq,5000/pq};
-       if (((warrior)fit2.get(i)).type-1 == -1) {
+       if (((warrior)team1.get(i)).type-1 == -1) {
          exit();
        }
-       money1 += mon[((warrior)fit2.get(i)).type-1];
-       fit2.remove(i);
+       money1 += mon[((warrior)team1.get(i)).type-1];
+       team1.remove(i);
      }
    
   }
-  for (int i = 0; fit.size() > i; i++) {
-     if ( ((warrior)fit.get(i)).dead()) {
+  for (int i = 0; AI.size() > i; i++) {
+     if ( ((warrior)AI.get(i)).dead()) {
        float[] mon = {50/pq,300/pq,450/pq,300/pq,1500/pq,1500/pq,1000/pq,2000/pq,2000/pq,5000/pq};
        
-       money2 += mon[((warrior)fit.get(i)).type-1];
+       money2 += mon[((warrior)AI.get(i)).type-1];
        
        
-       fit.remove(i);
+       AI.remove(i);
        
        
      }
@@ -412,7 +407,7 @@ class warrior {
       noTint();
       fill(hp/4,0,0);
 
-       image(n_,x,y,55,55);
+       image(h_,x,y,55,55);
     }
     //for now it will just point to middle
     
@@ -420,11 +415,11 @@ class warrior {
     //print(pos);
     if (move == 0) {
     float lowDist = 0;
-    if (fit.size() == 0) {
+    if (AI.size() == 0) {
          money1 = 10000;
-         fit.add( new warrior( width-random(50), random(height),15,1,1,1));
+         AI.add( new warrior( width-random(50), random(height),15,1,1,1));
        }
-      if (fit2.size() == 0) {
+      if (team1.size() == 0) {
          noLoop();
          exit();
        }
@@ -589,12 +584,12 @@ class warrior {
        
         if (type2 == 2) {
           
-          fit2.add( new warrior( x, y,15,1,1,1));
+          team1.add( new warrior( x, y,15,1,1,1));
           
         }
         if (type2 == 1) {
           
-          fit.add( new warrior( x, y,15,1,1,1));
+          AI.add( new warrior( x, y,15,1,1,1));
           
         }
       }
@@ -667,16 +662,16 @@ class warrior {
       ((warrior)pos.get(index)).canAttack = false;
       }
       if (type2 == 2 && ((warrior)pos.get(index)).type != 0 && ((warrior)pos.get(index)).type != 9 && ((warrior)pos.get(index)).type != 10) {
-        fit2.add(new warrior(((warrior)pos.get(index)).x,((warrior)pos.get(index)).y, ((warrior)pos.get(index)).hp,((warrior)pos.get(index)).atk,((warrior)pos.get(index)).runspeed,((warrior)pos.get(index)).type));
-        ((warrior)fit2.get(fit2.size()-1)).range =((warrior)pos.get(index)).range;
-        fit.remove(index);
-        //fit2.add(new warrior();
+        team1.add(new warrior(((warrior)pos.get(index)).x,((warrior)pos.get(index)).y, ((warrior)pos.get(index)).hp,((warrior)pos.get(index)).atk,((warrior)pos.get(index)).runspeed,((warrior)pos.get(index)).type));
+        ((warrior)team1.get(team1.size()-1)).range =((warrior)pos.get(index)).range;
+        AI.remove(index);
+        //team1.add(new warrior();
       }
       if (type2 == 1 && ((warrior)pos.get(index)).type != 0 && ((warrior)pos.get(index)).type != 9 && ((warrior)pos.get(index)).type != 10) {
-        fit.add(new warrior(((warrior)pos.get(index)).x,((warrior)pos.get(index)).y, ((warrior)pos.get(index)).hp,((warrior)pos.get(index)).atk,((warrior)pos.get(index)).runspeed,((warrior)pos.get(index)).type));
-        ((warrior)fit.get(fit.size()-1)).range =((warrior)pos.get(index)).range;
-        fit2.remove(index);
-        //fit2.add(new warrior();
+        AI.add(new warrior(((warrior)pos.get(index)).x,((warrior)pos.get(index)).y, ((warrior)pos.get(index)).hp,((warrior)pos.get(index)).atk,((warrior)pos.get(index)).runspeed,((warrior)pos.get(index)).type));
+        ((warrior)AI.get(AI.size()-1)).range =((warrior)pos.get(index)).range;
+        team1.remove(index);
+        //team1.add(new warrior();
       }
     }
     }
