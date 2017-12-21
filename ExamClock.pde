@@ -27,7 +27,7 @@ void draw() {
   line(60,60, 60+cos( x)*15,60+  (sin(x)*15));
      x = radians( ( (totalSeconds% ((100/1.157)*100)/((100/1.157)*100))*360))+ PI+ PI/2;
     line(60,60, 60+cos( x)*7,60+  (sin(x)*7));
-      x = radians( ( (totalSeconds% ((100/1.157)*1000)/((100/1.157)*1000))*360))+ PI+ PI/2;
+      x = radians( ( (totalSeconds% ((100/1.157)*500)/((100/1.157)*500))*360))+ PI+ PI/2;
     line(60,60, 60+cos( x)*3,60+  (sin(x)*3));
     
     
