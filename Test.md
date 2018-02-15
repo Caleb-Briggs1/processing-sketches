@@ -16,11 +16,17 @@ void setup() {
 }
 void draw() {
   background(255); //5
-  for (Hand hand : leap.getHands ()) {
-      hand.draw();     //6
+  for (Hand hand : leap.getHands ()) { //6
+      hand.draw();     //7
   }
 }
 ```
 #### What this code does
-
+1. Import the Leap Motion library
+2. Create a new LeapMotion object named leap
+3. Set the size of the sketch, both of these can be any numbers
+4. Instansiate the leap as a new LeapMotion
+5. Set the background to white
+6. Repeats for each hand it finds
+7. Draws the hands
 
