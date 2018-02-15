@@ -8,16 +8,19 @@ For this tutorial we will be using Processing. We are assuming that you already 
 
 The most basic code is this:
 ```javascript
-import de.voidplus.leapmotion.*;
-LeapMotion leap;
+import de.voidplus.leapmotion.*; //1
+LeapMotion leap; //2
 void setup() {
-  size(800, 500);
-  leap = new LeapMotion(this);
+  size(800, 500); //3
+  leap = new LeapMotion(this); //4
 }
 void draw() {
-  background(255);
+  background(255); //5
   for (Hand hand : leap.getHands ()) {
-      hand.draw();    
+      hand.draw();     //6
   }
 }
 ```
+#### What this code does
+
+
