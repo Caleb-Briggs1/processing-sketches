@@ -8,7 +8,16 @@ For this tutorial we will be using Processing. We are assuming that you already 
 
 The most basic code is this:
 ```javascript
-function test() {
-  console.log("notice the blank line before this function?");
+import de.voidplus.leapmotion.*;
+LeapMotion leap;
+void setup() {
+  size(800, 500);
+  leap = new LeapMotion(this);
+}
+void draw() {
+  background(255);
+  for (Hand hand : leap.getHands ()) {
+      hand.draw();    
+  }
 }
 ```
