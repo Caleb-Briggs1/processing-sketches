@@ -32,7 +32,54 @@ void draw() {
 
 The Leap Motion comes with various default functions that can regonize gestures, see movement, and find the positions.
 
-# How to use the Leap Motion
+# The Main loop
 
-The leap motion 
+Describe the for each loop here
+
+# Recoginizing hands
+
+One of the simplest functions in the Leap Motion is the isLeft() function. It returns a boolean that is true if the current hand is the left hand, and false otherwise. The couterpart to this function is the isRight() function, which returns true if the current hand is the right hand, and false otherwise.
+
+In this example code, we show how to use those ffunctions to change the color of the screen.
+
+```javascript
+/* 
+Owen Grimm
+February 16, 2018
+A tutorial on how hand recognition works with the leap motion
+The background is purple with both hands
+    It is red with just the left hand
+    And green with just the right hand
+*/
+
+import de.voidplus.leapmotion.*; 
+LeapMotion leap;
+void setup() {
+  size(800, 500);
+  leap = new LeapMotion(this);
+}
+void draw() {
+  background(255);
+  boolean handLeft = false; //we assume neither hands are there by default, so we set both hands to false
+   boolean handRight = false;  
+  for (Hand hand : leap.getHands ()) { //loops through each hand 
+  if (hand.isLeft()) { //if we see the left hand, set the boolean to true
+    handLeft = true; 
+  }
+  if (hand.isRight() ) { //if we see the right hand, set the boolean to true
+    handRight = true; 
+  }
+}
+ if (handRight && handLeft) { //if both hands have been found
+      background (200, 0, 200); //set the screen purple     
+    } 
+ else if (handLeft == true) { //if we see just the left hand
+  background(200, 0, 0); //set the screeen red
+  } 
+  else if (handRight == true) { //if we see just the right hand
+  background (0, 200, 0); //set the screen green
+}
+
+}
+```
 
