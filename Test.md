@@ -31,3 +31,8 @@ void draw() {
 7. Draws the hands
 
 The Leap Motion comes with various default functions that can regonize gestures, see movement, and find the positions.
+
+# How to use the Leap Motion
+
+The leap motion 
+
