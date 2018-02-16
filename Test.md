@@ -59,26 +59,33 @@ void setup() {
   leap = new LeapMotion(this);
 }
 void draw() {
-  background(255);
+  background(255); //set the background to white to override the color it was before
+  
   boolean handLeft = false; //we assume neither hands are there by default, so we set both hands to false
-   boolean handRight = false;  
+  
+  boolean handRight = false;  
+  
   for (Hand hand : leap.getHands ()) { //loops through each hand 
+  
   if (hand.isLeft()) { //if we see the left hand, set the boolean to true
     handLeft = true; 
   }
+  
   if (hand.isRight() ) { //if we see the right hand, set the boolean to true
     handRight = true; 
   }
-}
- if (handRight && handLeft) { //if both hands have been found
+  
+  }
+ //we check after the loop
+  if (handRight && handLeft) { //if both hands have been found
       background (200, 0, 200); //set the screen purple     
-    } 
- else if (handLeft == true) { //if we see just the left hand
-  background(200, 0, 0); //set the screeen red
-  } 
+ } 
+  else if (handLeft == true) { //if we see just the left hand
+      background(200, 0, 0); //set the screeen red
+ } 
   else if (handRight == true) { //if we see just the right hand
-  background (0, 200, 0); //set the screen green
-}
+      background (0, 200, 0); //set the screen green
+ }
 
 }
 ```
