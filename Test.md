@@ -30,3 +30,4 @@ void draw() {
 6. Repeats for each hand it finds
 7. Draws the hands
 
+The Leap Motion comes with various default functions that can regonize gestures, see movement, and find the positions.
