@@ -102,6 +102,7 @@ This code displays how long a hand has been visible for.
 # Using Gestures
 
 The Leap Motion has the abliity to recogonize gestures. For example, you can recognize the grab of your hand with getHandGrab(). In this exmaple, we show how to use getPinchStrength(). 
+
 This is what the sketch looks like when no pinching
 ![alt text](https://i.imgur.com/xCHFYUY.png)
 
