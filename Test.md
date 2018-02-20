@@ -41,6 +41,7 @@ Describe the for each loop here
 One of the simplest functions in the Leap Motion is the isLeft() function. It returns a boolean that is true if the current hand is the left hand, and false otherwise. The couterpart to this function is the isRight() function, which returns true if the current hand is the right hand, and false otherwise.
 
 In this example code, we show how to use those ffunctions to change the color of the screen.
+![alt text] (https://i.imgur.com/a9VSnjj.png)
 
 ```javascript
 /* 
