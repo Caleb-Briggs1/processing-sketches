@@ -157,4 +157,6 @@ println(handPinch);
 
 ```
 
+The leap motion can also reegonize thigns such as handYaw, handPitch
+
 
