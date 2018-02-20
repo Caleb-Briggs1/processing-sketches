@@ -89,6 +89,15 @@ void draw() {
 
 }
 ```
+# Using hand motion
+
+The Leap Motion has the ability to track the motion and time of hands. Some important functions are handPosition(), which returns a PVector the your hand's position. There is also getVelocity() to get the finger velocity, getTimeVisible() for the fingers.
+
+This code displays how long a hand has been visible for. 
+```javascript
+
+```
+
 # Using Gestures
 
 The Leap Motion has the abliity to recogonize gestures. For example, you can recognize the grab of your hand with getHandGrab(). In this exmaple, we show how to use getPinchStrength(). 
