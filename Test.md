@@ -96,7 +96,11 @@ The leap motion has the abliity to recogonize gestures. For example, you can rec
 ```javascript
 //This is an example of pinch strength//
 /*
-The function “hand.getPinchStrength();” measures if your hand is pinching on a scale from 0.0-1.0, in this case 1.0 is full contact. The example sketch changes the screen color with the strength of the pinch after reading the gesture and at the end it prints the value in the command line. First by setting up the base example code and then adding the variable for the pinch strength so it will be used correctly and then creating an if loop to change the color of the screen by the value of strength. 
+The function “hand.getPinchStrength();” measures if your hand is pinching on a scale from 0.0-1.0, 
+in this case 1.0 is full contact. The example sketch changes the screen color with the strength of the pinch after 
+reading the gesture and at the end it prints the value in the command line. First by setting up the base example code 
+and then adding the variable for the pinch strength so it will be used correctly and then creating an if loop to 
+change the color of the screen by the value of strength. 
 */
 import de.voidplus.leapmotion.*;
 
