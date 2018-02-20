@@ -89,4 +89,57 @@ void draw() {
 
 }
 ```
+# Using Gestures
+
+The leap motion has the abliity to recogonize gestures. For example, you can recognize the grab of your hand with getHandGrab. In this exmaple, we show how to use getPinchStrength(). 
+
+```javascript
+//This is an example of pinch strength//
+
+import de.voidplus.leapmotion.*;
+
+LeapMotion leap;
+
+void setup() {
+
+  size(800, 500);
+
+  leap = new LeapMotion(this);
+
+}
+
+void draw() {
+
+  background(255);
+
+  float handPinch=0;
+
+  for (Hand hand : leap.getHands ()) {
+
+      hand.draw();
+
+      handPinch = hand.getPinchStrength();
+
+      //below is where if the strength is greater than five then the screen goes from white to blue//
+
+      if ( handPinch>=0.5) {
+
+        background(0,0,255);
+
+      }
+
+      else { background(255,255,255);}
+
+     
+
+  }
+
+  //this line was for testing if the sketch is reading the strength//
+
+println(handPinch);
+
+}
+
+```
+
 
