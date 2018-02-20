@@ -91,7 +91,7 @@ void draw() {
 ```
 # Using Gestures
 
-The leap motion has the abliity to recogonize gestures. For example, you can recognize the grab of your hand with getHandGrab. In this exmaple, we show how to use getPinchStrength(). 
+The Leap Motion has the abliity to recogonize gestures. For example, you can recognize the grab of your hand with getHandGrab(). In this exmaple, we show how to use getPinchStrength(). 
 
 ```javascript
 //This is an example of pinch strength//
