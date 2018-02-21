@@ -94,9 +94,48 @@ void draw() {
 
 The Leap Motion has the ability to track the motion and time of hands. Some important functions are handPosition(), which returns a PVector the your hand's position. There is also getVelocity() to get the finger velocity, getTimeVisible() for the fingers.
 
-This code displays how long a hand has been visible for. 
+This code displays how a green background if the hand is near the middle and a red background otherwise
 ```javascript
 
+LeapMotion leap;
+
+void setup() {
+
+  size(800, 500);
+
+  leap = new LeapMotion(this);
+
+}
+
+void draw() {
+
+  background(255);
+
+  for (Hand hand : leap.getHands ()) {
+
+      hand.draw();
+
+    int     handId             = hand.getId();
+
+    PVector handStabilized     = hand.getStabilizedPosition();
+
+    PVector handPosition       = hand.getPosition();
+
+   
+
+    if(handPosition.x >= 205 && handPosition.x <= 405){
+
+      background(0,255,0);
+
+    } else{
+
+      background(255,0,0);
+
+    }
+
+    }
+
+}
 ```
 
 # Using Gestures
@@ -163,7 +202,7 @@ println(handPinch);
 
 ```
 
-The leap motion can also recgonize things such as handYaw, handPitch.
+The leap motion can also recgonize things such as handYaw and handPitch.
 This example shows how to use handgrab to change the background color.
 ```javascript
 // Tutorial on "handGrab"
