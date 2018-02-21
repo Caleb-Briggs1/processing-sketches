@@ -137,6 +137,66 @@ void draw() {
 
 }
 ```
+The Leap Motion can also recognize indiviual fingers. In this example, of the pinky finger is farther than 50 pixels from the left side of the screen the background will be blue otherwise it will be white.
+```javascript
+/* 
+Griffin Lovato
+
+leap_motion_game_2
+
+February 20, 2018
+
+The code within our project for fingers uses finger position to determine the x value of the pinkie. 
+If the pinkie moves to or beyond x=50, then the background becomes blue. If the pinkie is below x=50, 
+then the background remains white. Finger position can be used for any of the 5 fingers, recognizing them from both the 
+left and right hands.
+*/
+
+import de.voidplus.leapmotion.*; 
+
+LeapMotion leap;
+
+void setup() {
+
+  size(800, 500);
+
+}
+    
+
+
+
+void draw() {
+
+  background(255);
+   leap = new LeapMotion(this);
+  for (Hand hand : leap.getHands ()) {
+    
+     Finger  fingerThumb        = hand.getThumb();
+    // or                        hand.getFinger("thumb");
+    // or                        hand.getFinger(0);
+
+    Finger  fingerIndex        = hand.getIndexFinger();
+    // or                        hand.getFinger("index");
+    // or                        hand.getFinger(1);
+
+    Finger  fingerMiddle       = hand.getMiddleFinger();
+    // or                        hand.getFinger("middle");
+    // or                        hand.getFinger(2);
+
+    Finger  fingerRing         = hand.getRingFinger();
+    // or                        hand.getFinger("ring");
+    // or                        hand.getFinger(3);
+
+    Finger  fingerPink         = hand.getPinkyFinger();
+    // or                        hand.getFinger("pinky");
+    // or                        hand.getFinger(4);
+    if(fingerPink.getPosition().x > 50) {
+      background(0,0,255);
+    }
+  }
+}
+
+```
 
 # Using Gestures
 
@@ -202,7 +262,58 @@ println(handPinch);
 
 ```
 
-The leap motion can also recgonize things such as handYaw and handPitch.
+The leap motion can also recgonize things such as handYaw and handPitch. In this example we show how to use handYaw and handPitch.
+```javascript
+/*
+Pitching and yawing are simple hand gestures that can be recognized in the LeapMotion. 
+A pitch is a simple upward gesture with the hand, and a yaw is a similar, horizontal action. 
+When you yaw your hand, the screen turns a shade of blue. When you pitch your hand, the screen turns pink. 
+
+
+*/
+import de.voidplus.leapmotion.*;
+
+LeapMotion leap;
+
+void setup() {
+  strokeWeight(5);
+  size(800, 500);
+  leap = new LeapMotion(this);
+}
+
+
+
+
+
+
+void draw() {
+  background(255);
+  // ...
+
+  int fps = leap.getFrameRate();
+  for (Hand hand : leap.getHands ()) {
+
+    float   handPitch          = hand.getPitch();
+    float   handYaw            = hand.getYaw();
+   
+
+int yaw= round(handYaw*(1));
+println(yaw);
+if((yaw>-40)||(yaw>=-20)){
+  background(0);
+}
+
+    
+
+    
+      
+
+
+    
+  
+}
+}
+```
 This example shows how to use handgrab to change the background color.
 ```javascript
 // Tutorial on "handGrab"
