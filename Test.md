@@ -137,6 +137,8 @@ void draw() {
 
 }
 ```
+By using this function(hand.getTimeVisible). This code displays the time when leap motion recognizes your hands.
+
 ```javascript
 import de.voidplus.leapmotion.*;
 LeapMotion leap;
