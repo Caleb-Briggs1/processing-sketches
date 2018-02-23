@@ -137,6 +137,22 @@ void draw() {
 
 }
 ```
+```javascript
+import de.voidplus.leapmotion.*;
+LeapMotion leap;
+void setup() {
+  size(1000, 1000);
+  leap = new LeapMotion(this);
+}
+void draw() {
+  background(255);
+  for (Hand hand : leap.getHands ()) {
+  	hand.draw();
+   float lifetimeOfThisHandObject = hand.timeVisible();//get time
+  }
+}
+
+```
 The Leap Motion can also recognize indiviual fingers. In this example, of the pinky finger is farther than 50 pixels from the left side of the screen the background will be blue otherwise it will be white.
 ```javascript
 /* 
