@@ -170,49 +170,101 @@ then the background remains white. Finger position can be used for any of the 5 
 left and right hands.
 */
 
-import de.voidplus.leapmotion.*; 
+/*
+
+Introduction to Coding
+
+ 
+
+leap_motion_game_2
+
+ 
+
+February 23, 2018
+
+ 
+
+Making a tutorial on how leapmotion recognizes fingers and their positions
+
+*/
+
+ 
+
+import de.voidplus.leapmotion.*;
+
+ 
 
 LeapMotion leap;
 
+ 
+
 void setup() {
+
+ 
 
   size(800, 500);
 
+  //Sets the size of the sketch
+
+ 
+
 }
-    
 
+   
 
+ 
+
+ 
+
+ 
 
 void draw() {
 
+ 
+
   background(255);
-   leap = new LeapMotion(this);
+
+  //Sets the background to white
+
+  leap = new LeapMotion(this);
+
+  //Creates the leapmotion object
+
   for (Hand hand : leap.getHands ()) {
-    
-     Finger  fingerThumb        = hand.getThumb();
-    // or                        hand.getFinger("thumb");
-    // or                        hand.getFinger(0);
 
-    Finger  fingerIndex        = hand.getIndexFinger();
-    // or                        hand.getFinger("index");
-    // or                        hand.getFinger(1);
+  //Gets all the information about the hands from the
 
-    Finger  fingerMiddle       = hand.getMiddleFinger();
-    // or                        hand.getFinger("middle");
-    // or                        hand.getFinger(2);
+  //leapmotion object
 
-    Finger  fingerRing         = hand.getRingFinger();
-    // or                        hand.getFinger("ring");
-    // or                        hand.getFinger(3);
+   
+
+ 
 
     Finger  fingerPink         = hand.getPinkyFinger();
-    // or                        hand.getFinger("pinky");
-    // or                        hand.getFinger(4);
+
+    //Gets all the information about the pinky finger from
+
+    //the hand object
+
+   
+
     if(fingerPink.getPosition().x > 50) {
+
+    //"If the pinky is over 50 pixels from the left side
+
+    //of the screen..."
+
       background(0,0,255);
+
+   //Changes the background color to blue
+
     }
+
   }
+
 }
+
+
 
 ```
 
