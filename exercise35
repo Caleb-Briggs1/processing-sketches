@@ -1,0 +1,80 @@
+
+class recur {
+  int x;
+  int y;
+  float size = 1;
+  float[] stroke = {random(250),random(250),random(250)};
+  ArrayList<float[]> vertex = new ArrayList();
+  PVector move = new PVector(random(-2,2),random(-2,2));
+  recur(int x_, int y_, ArrayList<float[]> vert) {
+    x = x_;
+    y = y_;
+    for (int i = 0; vert.size() > i; i++) {
+      float[] val = new float[2];
+     
+      val[0] =  vert.get(i)[0] + random(-1,1);
+      val[1] += vert.get(i)[1] + random(-1,1);
+      vertex.add(val);
+    }
+    //vertex = vert;
+    float[] a = {random(-4,4),random(-4,4)};
+    vert.add(a);
+    
+  }
+  void show(ArrayList<recur> other) {
+    stroke(stroke[0],stroke[1],stroke[2]);
+    beginShape();
+    for (int i = 0; vertex.size() > i; i++) {
+    vertex(x + vertex.get(i)[0]*size/4, y + vertex.get(i)[1]*size/4);
+    }
+    endShape();
+    x += move.x;
+    y += move.y;
+    if (x+move.x > width || 0 > x +move.x ) {
+     move.x *= -1;
+    }
+    if ( y+move.y > height || 0> y +move.y) {
+      move.y *= -1;
+    }
+    if (size < 30) {
+      size += 0.1;
+    }
+    for (int i = 0; other.size() > i; i++) {
+      if (abs(x -other.get(i).x) < size/2 && abs(y - other.get(i).y) < size/2 && abs(x - other.get(i).x ) != 0 && other.get(i).size > 25) {
+        items.add(new recur( int(x+random(-15,15)),int(y + random(-15,15)),vertex));
+        items.get(items.size() -1).stroke[0] = (other.get(i).stroke[0] + stroke[0])/2;
+        items.get(items.size() -1).stroke[1] = (other.get(i).stroke[1] + stroke[1])/2;
+        items.get(items.size() -1).stroke[2] = (other.get(i).stroke[2] + stroke[2])/2;
+        move = new PVector(random(-2,2),random(-2,2));
+        size = 1;
+        other.get(i).size = 1;
+        other.get(i).move = new PVector(random(-2,2),random(-2,2));;
+        
+      }
+    }
+  }
+  boolean click() {
+    if (abs(mouseX - x) < size/2 && abs(mouseY-y) <size/2 ) {
+      return true;
+    }
+    return false;
+  }
+}
+ArrayList<float[]> start = new ArrayList();
+ArrayList<recur> items = new ArrayList();
+void setup() {
+  fullScreen();
+
+  //recur(width/2,height/2,500);
+  for (int i = 0; 15 > i; i++) {
+    items.add(new recur( width/2,height/2,start ) );
+  }
+}
+
+void draw() {
+  background(255);
+  for (int i = 0; items.size() > i; i++) {
+    items.get(i).show(items);
+ 
+  }
+}
