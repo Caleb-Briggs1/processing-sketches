@@ -15,7 +15,7 @@ void init(Movie movie) {
 void run() {
   
   image(myMovie, width/2, height/2);
- println(myMovie.time());
+ 
   
 }
 boolean done() {

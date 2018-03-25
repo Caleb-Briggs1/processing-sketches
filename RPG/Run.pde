@@ -1,10 +1,11 @@
-//create a transition, so it looks like you are waking up
+
 
 chunk map = new chunk();
 character You = new character(-32 * 7,32 * 4);
 NPCss npc = new NPCss();
 dark mask =  new dark();
  end END = new end();
+ boolean follow = false;
 Scene SCENE;
 int scene = 1;
 float view = 1.1;
@@ -51,8 +52,9 @@ void run() {
  if (canMove) {
  You.run();
  }
+ 
   npc.run(0);
-  npc.run(1);
+  //npc.run(1);
   
   for (int i = 0; extras.size() > i; i++) {
   map.drawChunk(extras.get(i));
@@ -79,12 +81,14 @@ void run() {
   
   
   
+  
+  
   }
   mask.view = view;
 
   
   npc.run2(0);
-  npc.run2(1);
+  //npc.run2(1);
   
   
   
@@ -96,6 +100,14 @@ void run() {
   if (path) {
     doPath();
         
+  }
+  println( abs(You.x-640));
+  if (follow && abs(You.x+640) < 32) { //at about 640
+    //TELEPORT TO A NEW PLACE
+    map.teleport(0);
+    
+    println("BROA");
+    
   }
   
 }
@@ -117,10 +129,16 @@ void updateArray1() {
     canMove = false;
      ArrayList<int[]> cur = map.info.get(2).get(1);
          for (int i = 0; cur.size() > i; i++) {
+            cur.get(i)[8] = 0;
            if ( abs(cur.get(i)[0] - (576 - 32*pathId) ) <= 5 && cur.get(i)[1] == 96) {
+             
              cur.get(i)[4] = 2;
              cur.get(i)[7] = 3;
              cur.get(i)[8] = 0;
+             if (cur.get(i)[0] == 0) {
+               cur.get(i)[4] = 12;
+               cur.get(i)[7] = 0;
+             }
              //cur.get(i)[4] =2
              //cur.get(i)[7]=3
            }
@@ -132,7 +150,7 @@ void updateArray1() {
               You.x += 15;
           }
           else {
-        
+          follow = true;
            path = false;
            canMove = true;
           }

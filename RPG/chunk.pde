@@ -82,8 +82,7 @@ class chunk {
     
     return drawLater;
     
-    //returns everythign that should be drew laters
-    //THIS NEEDS TO BE FINISHED
+  
     
   }
   void drawChunk(ArrayList<int[]> laterChunk) {
@@ -100,9 +99,17 @@ class chunk {
   void teleport(int id) {
     if (id == 0) {
     info = new ArrayList();
-    info.add(createChunk(1500,1500,"chunk2.txt"));
-    You.x = 1500;
-    You.y = 1500;
+    info.add(createChunk(1500,1500,"chunk1.txt"));
+   //resets the charList
+    NPCs temp = new NPCs();
+    temp.init("char2.txt",1500,1500);
+    temp.init2();
+    npc.npc = new ArrayList();
+    npc.npc.add( temp);
+    You.x = 1400;
+    You.y = 1600;
+   
+    
     
     }  
   }

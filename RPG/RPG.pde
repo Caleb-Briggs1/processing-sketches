@@ -1,6 +1,6 @@
 import processing.video.*;
-//add some achivenments taht just pop up whne things happen, 
-//eg didnt take the hint
+
+//make dante 2 have differnt id
 //get ome sound track and stuff, noise for when you clicking the buttons
 //taking about 110 CPU, needs to increase its speed, find some way to compile iamge
 //main problem was GC dumps (garbage collections)
@@ -11,13 +11,12 @@ import processing.video.*;
   //finish options for text
   //allow you  to lead dante into hell.
   //add some noise for when seeing the bveasts
-  //remove the trees that draw after in part of the map
 void setup() {
- size(1200,700);
+ size(700,640); //dont change size any more, 700 by 640
  fill(0);
-
+ 
  init();
- delay(1000); 
+ //delay(1000); 
 }
 void draw() {
 

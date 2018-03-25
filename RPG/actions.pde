@@ -9,10 +9,7 @@ class NPCss {
     temp.init2();
     npc.add(temp);
     
-    temp = new NPCs();
-    temp.init("char2.txt",1500,1500);
-    temp.init2();
-    npc.add(temp);
+   
     
     
   }
@@ -184,11 +181,6 @@ class NPC {
     if (id == 3) {
       fill(0,250,0);
       
-       if (this.touching(xP,yP) && shake) {
-         map.teleport(0);
-         fade = true;
-         shake = false;
-       }
     }
     if (id == 4) {
       cerberus.update();
@@ -197,8 +189,12 @@ class NPC {
       image(look.get( int(cerberus.costX) * 100,0,100,100), x-xP, y-yP,size,size);
     }
     if (id == 5) {
-      
-      image(look.get(int(Virgil.costXY[0]) * 32, 0,32,32),x-xP,y-yP,size,size);
+      if (follow) {
+      Virgil.follow(x-xP+Virgil.xSpot,y-yP+Virgil.ySpot);
+      }
+    
+     
+      image(look.get(Virgil.costXY[0],Virgil.costXY[1],32,32),(x-xP) +Virgil.xSpot,(y-yP)+Virgil.ySpot,size,size);
     }
     if (id == 6) {
       
@@ -320,29 +316,28 @@ class cerb {
   }
 }
 class virgil {
-  float x; 
-  float y;
+  float xSpot=0; 
+  float ySpot=0;
   int[] costXY = {0,0};
   int dialague = 0;
   boolean speak = false;
   int dir = 0;
-  
-  float curCostume = 0;
-  float a = 0.1;
+
+  float curCostume = 1;
+  int curCostume2 = 0;
+  float a = 0.2;
   String[] text;
   text dia;
   virgil(choiInit text_) {
     int id = 0;
     text = text_.words.get(id);
+   
   }
   void update() {
+     
     
-    curCostume += a;
-    if (curCostume > 2.5 || curCostume < 0.5) {
-      a *= -1;
-    }
-    costXY[0] = dir * 32;
-    costXY[1] = int(curCostume);
+    costXY[0] = round(curCostume )*32;
+    costXY[1] = curCostume2*32;
     if (speak) {
     dia.displayPoem();
     dia.showFace("danteFace.png");
@@ -359,6 +354,65 @@ class virgil {
       
     }
     }
+    
+  }
+  void follow(float x_, float y_) {
+    curCostume += a;
+    
+    if (curCostume > 2 || curCostume < 0) {
+      a *= -1;
+    }
+    int A = 0;
+     for (int i = 0; You.keys.length > i; i++) {
+       if (You.keys[i]) {
+         A++;
+       }
+     }
+     float speed = You.movSpeed;
+     if(A==2) {
+     speed /=sqrt(A);
+     }
+     
+       //if 2keys pressed then slow down by a little
+       if (You.dir == 1 || You.dir == 2) {
+          if (y_ > height/2+2 ) {
+          ySpot -= speed;
+          
+          }
+          if (y_ < height/2-2 ) {
+          ySpot += speed;
+          
+          }
+        }
+        if (You.dir == 0 || You.dir == 3) {
+          if ( x_ < width/2 - 2) {
+        xSpot += speed;
+        
+        }
+        else if (x_ > width/2+2) {
+        xSpot -= speed;
+      
+        }
+        }
+        if ( x_ < width/2 - 32) {
+        xSpot += speed;
+        curCostume2 = 2;
+        }
+        else if (x_ > width/2+32) {
+        xSpot -= speed;
+        curCostume2 = 1;
+        }
+        
+        else {
+          if (y_ > height/2+32 ) {
+          ySpot -= speed;
+          curCostume2 = 3;
+          }
+          if (y_ < height/2-32 ) {
+          ySpot += speed;
+          curCostume2 = 0;
+          }
+        }
     
   }
   void onTouch() {

@@ -3,7 +3,7 @@ class character {
   int movSpeed = 4;
   boolean[] keys = {false,false,false,false}; //up, down, left right  | add space later
   int dirCostume = 1;
-  PImage look = new PImage() ;//this will get cahnged later
+  PImage look = new PImage() ;
   float curCostume = 0;
   int dir = 0;
   boolean hit = false;
