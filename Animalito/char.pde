@@ -10,18 +10,18 @@ class You {
     for (int i = 0;(info.size()) > i; i++) { //repeat for each item
     //***This is your part
       if (MAP.infoSight(YOU).get(i)[2] > 20) {
-        float[] val = MAP.infoSight(YOU).get(i);
+        float[] val = MAP.infoSight(YOU).get(i);  //information of the current object
         
-        ang = atan2(val[0]-YOU.x,val[1]-YOU.y);
-        line(YOU.x,YOU.y,val[0],val[1]);
+        ang = atan2(val[0]-YOU.x,val[1]-YOU.y); //points towards function
+        line(YOU.x,YOU.y,val[0],val[1]); //line from here to goal spot, not needed, just for animation
         
       }
       //***
     }
-    if (YOU.hit(MAP,YOU.x,YOU.y)) {
+    if (YOU.hit(MAP,YOU.x,YOU.y)) { //test if you are hitting something
       ang += 180;
     }
-    if (YOU.energy > YOU.maxEnergy-1) {
+    if (YOU.energy > YOU.maxEnergy-1) { //if you are ready to evolve
        MAP.evolve(YOU,0);
     }
     this.calc2(MAP,ang,1);
@@ -31,6 +31,7 @@ class You {
     YOU.view();
     YOU.run();
   }
+  
   void calc2(map map,float ang,float speed) {
     YOU.move(map,ang,speed);
      map.eatan(YOU);
