@@ -5,8 +5,8 @@ class You {
     YOU = new character(width/2,height/2,10);
   }
   void run(map MAP) {//Avalible functions, part allowed to change
-   this.calc(); //calculates mandartory things, do not remove
-    ArrayList<float[]> info = MAP.infoSight(YOU);
+   this.calc(); //calculates mandartory things, *do not remove*
+    ArrayList<float[]> info = MAP.infoSight(YOU); //gets info from MAP class, it is an arraylist of floats and it includes all the info you need to move
     for (int i = 0;(info.size()) > i; i++) { //repeat for each item
     //***This is your part
       if (MAP.infoSight(YOU).get(i)[2] > 20) {
