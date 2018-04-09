@@ -6,8 +6,9 @@ class You {
   }
   void run(map MAP) {//Avalible functions, part allowed to change
    this.calc();
-    
-    for (int i = 0;(MAP.infoSight(YOU).size()) > i; i++) {
+    ArrayList<float[]> info = MAP.infoSight(YOU);
+    for (int i = 0;(info.size()) > i; i++) { //repeat for each item
+    //***This is your part
       if (MAP.infoSight(YOU).get(i)[2] > 20) {
         float[] val = MAP.infoSight(YOU).get(i);
         
@@ -15,6 +16,7 @@ class You {
         line(YOU.x,YOU.y,val[0],val[1]);
         
       }
+      //***
     }
     if (YOU.hit(MAP,YOU.x,YOU.y)) {
       ang += 180;
