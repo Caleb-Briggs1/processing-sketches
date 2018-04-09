@@ -1,5 +1,5 @@
 class You {
-  float ang=45; 
+  float ang=45; //The angle that your are moving at during each cycle
   character YOU;
   You () {
     YOU = new character(width/2,height/2,10);
