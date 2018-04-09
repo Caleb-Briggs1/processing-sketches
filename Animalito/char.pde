@@ -1,6 +1,6 @@
 class You {
-  float ang=45; 
-  character YOU;
+  float ang=45; //need this 
+  character YOU; //need this
   You () {
     YOU = new character(width/2,height/2,10);
   }
