@@ -1,11 +1,11 @@
 class You {
   float ang=45; //The angle that your are moving at during each cycle
-  character YOU;
+  character YOU; 
   You () {
     YOU = new character(width/2,height/2,10);
   }
   void run(map MAP) {//Avalible functions, part allowed to change
-   this.calc();
+   this.calc(); //calculates mandartory things, do not remove
     ArrayList<float[]> info = MAP.infoSight(YOU);
     for (int i = 0;(info.size()) > i; i++) { //repeat for each item
     //***This is your part
