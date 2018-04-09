@@ -133,7 +133,7 @@ class map {
     if (Char.energy >= evolveData[Char.evolve]-1) {
       if (Char.evolve == 0) {
         if (choi == 0) {
-          Char.speed *= 2;
+          Char.maxSpeed *= 2;
         }
         if (choi == 1) {
           Char.size *= 2;
@@ -189,7 +189,8 @@ class character {
   int sightX = 155;
   int sightY = 155;
   int evolve = 0;
-  int speed = 1;
+  float maxSpeed = 1;
+  
   character (float x_, float y_, float size_) {
     x = x_;
     y = y_;
@@ -199,6 +200,12 @@ class character {
     sightX = int(120 - (dist(x,y,width/2,height/2)/(dist(0,0,width/2,height))  * 150) );
     
     sightY = sightX;
+  }
+  boolean evolveReady() {
+    if (energy > maxEnergy) {
+      return true;
+    }
+    return false;
   }
   void run() {
      rectMode(CENTER);
