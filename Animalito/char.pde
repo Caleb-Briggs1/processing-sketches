@@ -30,7 +30,7 @@ class You {
     
   }
 
-  }
+  
   void calc() {
     YOU.view();
     YOU.run();
