@@ -24,7 +24,7 @@ class You {
     if (YOU.evolveReady()) { //if ready to evolve
        MAP.evolve(YOU,0); //then evolve with choice of path 0
     }
-    println(min);
+   
     ////
     this.calc2(MAP,ang,.5 ); //mandatory, makes you moves, takes angle of movement, and speed as input
     
