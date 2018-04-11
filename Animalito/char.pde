@@ -9,7 +9,7 @@ class You {
     ArrayList<float[]> info = MAP.infoSight(YOU).get(0);
     
    
-    float[] value = new float[info.size()];
+
     for (int i = 0;(info.size()) > i; i++) { //repeat for each item
    ////main loop
       
