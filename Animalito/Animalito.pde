@@ -4,11 +4,11 @@ class map {//class to draw the background, **not essential to know for the game*
  ArrayList<bacteria> food = new ArrayList(); //start list of bacteria, called food
  PImage images;//really just one image, needs to be loaded in setup
  void init() {
-   images = loadImage("m_sand.png"); //loads image
+   //images = loadImage("m_sand.png"); //loads image
  }
  void generateMap() { //draws walls
    
-   image(images,0,0,576,576);
+   //image(images,0,0,576,576);
     
     for (int j = 0; walls.length > j; j++) {
       noStroke();
