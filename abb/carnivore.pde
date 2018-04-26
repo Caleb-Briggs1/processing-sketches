@@ -2,7 +2,7 @@ class carnivore {
   float x;
   float y;
   float energy = 10;
-  float maxEnergy = 100;
+  final int maxEnergy = 200;
   float size = random(1,10);
   float val = random(1);
   float reproSize = random(1,50);
@@ -28,14 +28,12 @@ class carnivore {
      
   }
   void update(map MAP) {
-    if (wait > 0) {
-    wait--;
+    wait -= int(wait > 0);
+   
     
-    }
-    MAP.eatan2(this);
-    if (energy > maxEnergy) {
-      energy = maxEnergy;
-    }
+    
+    MAP.eatan2(this); //check this function
+    energy = min(energy,maxEnergy);
     fill(energy*5,0,0);
     ellipse(x,y,size,size);
     
@@ -52,16 +50,16 @@ class carnivore {
     y += move.y;
     move.mult(1- (size/40.0) );
     energy -= size/100.0;
-     float dir = 0;
+    float dir = 0;
     if (MAP.food.size() > 0) {
     dir = atan2(MAP.food.get(index).x-x,MAP.food.get(index).y-y);
     }
-    if ( sqrt(move.x * move.x + move.y *move.y) < val)  {
+    if ( move.mag() < val)  {
       //then allowed to move
       
-      PVector curMove = (new PVector(sin(dir),cos(dir))).mult(3);
+     
       energy -= size;
-      move.add(curMove);
+      move.add((new PVector(sin(dir),cos(dir))).mult(3));
       
     }
     

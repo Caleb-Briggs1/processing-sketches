@@ -1,10 +1,10 @@
-
+//just change balancing stuff
 class map {//class to draw the background, **not essential to know for the game** (except for the food functions)
- float[][] walls = new float[int(random(190)) ][4]; //creates random up to 90 walls
+ final float[][] walls = this.makeWalls(576,576);; //creates random up to 90 walls
  ArrayList<bacteria> food = new ArrayList(); //start list of bacteria, called food
  ArrayList<carnivore> carniv = new ArrayList();
- 
- 
+ private final static float eatSpeed = 50;
+ //make walls all final and then create an init function for them
  void generateMap() { //draws walls
    
    
@@ -38,20 +38,27 @@ class map {//class to draw the background, **not essential to know for the game*
  }
 
   
-  void makeWalls() { // Algorithm to make walls
-    
-    for (int i = 0;walls.length > i; i++) {
-      float[] val = {random(width),random(height),random(5,25),random(5,25)};
-      walls[i] = val;
+  float[][] makeWalls(float hi, float wi) { // Algorithm to make walls
+    float[][] res = new float[int(random(0))][4];
+    for (int i = 0;res.length > i; i++) {
+      float[] val = {random(wi),random(hi),random(5,25),random(5,25)};
+      res[i] = val;
     }
+    return res;
   }
   void initCarniv() {
     for (int i = 0; 30 > i; i++) {
-    carniv.add(new carnivore(random(width),random(height)));
-    carniv.get(i).energy = 69;
+    carniv.add(new carnivore(width * int(random(0,2)) + random(35),height * int(random(0,2)) + random(35)));
+    carniv.get(i).energy = 1229;
   }
   }
-  
+  ArrayList infoOthers() { //0 = ME, 1 = TEAM1, 2 =TEAM2
+    ArrayList b = new ArrayList();
+    b.add(team1);
+    b.add(team2);
+    b.add(ME);
+    return b;
+  }
   void initFood() {//creates food
     //for each item, create food based on light
      float maxDist = dist(width/2,height/2,0,0); // amount of light max
@@ -60,13 +67,14 @@ class map {//class to draw the background, **not essential to know for the game*
      float x = i % width;
      float y = int((i)) /int( width);
      
-      if ( int(random(0,pow( (dist(x,y,width/2,height/2) /maxDist )*35 + 2.5,4.0))) == 0) { //Calculation of light
+      if ( int(random(0,pow( (dist(x,y,width/2,height/2) /maxDist )*35,4.0)*2+45 )) == 0) { //Calculation of light
         
         food.add(new bacteria(x,y));
         
       }
     }
   }
+  
   void showCarniv() {
     int offset = 0;
     for (int i = 0; carniv.size()-offset > i; i++) {
@@ -105,19 +113,52 @@ class map {//class to draw the background, **not essential to know for the game*
      
     }
   }
+  void eat() {//gotta make an abstract class for this
+    YOU_temp[] info = {
+      ME, team1, team2
+    };
+    for (int i = 0; info.length > i; i++) {
+      for (int j = 0; info.length > j; j++) {
+        if (i != j) {
+          character char1 = info[i].retChar();
+          character char2 = info[j].retChar();
+          
+          if (dist(char1.x,char1.y,char2.x,char2.y) < (char2.size + char1.size)/2) {
+          
+          
+          char1.energy -= eatSpeed;
+          char2.energy -= eatSpeed;
+          
+           if (char1.energy < 0) {
+                     
+              char2.energy += ME.YOU.maxEnergy/2.0;          
+           }
+           else if(char2.energy < 0) {
+             char1.energy += ME.YOU.maxEnergy/2.0;
+           }
+           larry.eat(j,i);
+           
+            
+          }
+        }
+      }
+    }
+  }
+ 
   void INIT() {
     
-    this.makeWalls();
+    
     this.initFood();
-    //this.initCarniv();
+    this.initCarniv();
   }
   void RUN() {
     this.generateMap();
     noStroke();
     fill(0,250,0);
     this.showFood();
-    //this.showCarniv();
+    this.showCarniv();
     //this.light();
+    this.eat();
     
    
     
@@ -126,20 +167,33 @@ class map {//class to draw the background, **not essential to know for the game*
     for (int i = 0; food.size() > i; i++) { //eating the food
       bacteria cur = food.get(i);
       if (dist(carniv.x,carniv.y,cur.x,cur.y) <carniv.size/2) { //bacteria is considered to be 0 pixels large
-        food.get(i).energy -= 1;
-        carniv.energy += 1;
+        cur.energy -= 2;
+        carniv.energy += 2;
       }
     }
   }
-  void eatan(character Char) { //*important*
+  boolean eat(character Char) { //maybe combbine these to make it faster . dont need to loop all of them 3 seperate times
+    for (int i = 0; food.size() > i; i++) { //eating the food
+      bacteria cur = food.get(i);
+      if (dist(Char.x,Char.y,cur.x,cur.y) < Char.size/2) {
+      
+        return true;
+      }
+    }
+    return false;
+  }
+  void eatan(character Char) { //*important* //this is a huge speed waster
    
     for (int i = 0; food.size() > i; i++) { //eating the food
       bacteria cur = food.get(i);
       if (dist(Char.x,Char.y,cur.x,cur.y) < Char.size/2) { //bacteria is considered to be 0 pixels large
         cur.energy -= Char.eatSpeed;
-        Char.energy += Char.eatSpeed;
+        Char.energy += Char.eatSpeed; 
+        Char.hasEaten = true;
       }
+      
     }
+   
     
      for (int i = 0; carniv.size() > i; i++) { //eating the carniv
       carnivore cur = carniv.get(i);
@@ -194,7 +248,7 @@ class map {//class to draw the background, **not essential to know for the game*
           Char.colo = 150;
         }
         if (choi == 1) {
-          Char.size *= 4;
+          Char.size *= 1.5;
         }
        
       }
@@ -231,7 +285,7 @@ class map {//class to draw the background, **not essential to know for the game*
                   }
          Char.energy /= 4.1;
         Char.evolve ++;
-        println("energy needed",evolveData[Char.evolve]);
+        
         Char.maxEnergy = evolveData[Char.evolve];
   }
 }

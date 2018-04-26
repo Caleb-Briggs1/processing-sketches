@@ -1,26 +1,29 @@
-class You { //run theh if hit first, and then cahnge ang otherwise
+class You extends YOU_temp { //run theh if hit first, and then cahnge ang otherwise
   float ang=0; 
   int move = 0;
- int[] evPath = {0,1,1,0,0,0};
+ int[] evPath = {1,1,1,0,0,0};
  int ev = 0;
+ //
   character YOU;
+  character retChar() {
+    return YOU;
+  }
   You () {
-    YOU = new character(50,50,10);
+    YOU = new character(width,0,10);
   }
   void run(map MAP) {//Avalible functions, part allowed to change
    this.calc();
    
-   //add test if bbacteria is in wall
+   
    float speed = YOU.maxSpeed;
-   //YOU.x = 150;
-   //YOU.y = 150;
+  
     ArrayList<ArrayList<float[]>> info = MAP.infoSight(YOU);
-     //ang = -1;
+     
    
     if (move > 0) {
     move--;
-    
     }
+   
     else {
        if (info.get(0).size() == 0 ) {
        ang = atan2(width/2-YOU.x,height/2-YOU.y);
@@ -97,7 +100,7 @@ class You { //run theh if hit first, and then cahnge ang otherwise
     }
     }
     if (YOU.evolveReady()) { //if ready to evolve
-    println(evPath[ev]);
+    //println(evPath[ev]);
        MAP.evolve(YOU,evPath[ev]); //then evolve with choice of path 0
        
        ev ++;
