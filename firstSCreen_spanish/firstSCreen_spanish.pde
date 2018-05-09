@@ -36,18 +36,19 @@ class screens {
       //****
       //in this mode you are waiting for evveryone to connection, and for the server to start the game
       //****
+      game.LAN.handleConnections(thi);
+      
       if (key == ' ') {
+        game.LAN.start();
         mode = "game";
       }
       
     }
     if (mode.equals("game") ) {
+      
       game.run(thi);
-      game.draw();
-      if (key == 'r') {
-       game.SERVER.sendStop(0,thi);
-       
-      }
+      game.draw(thi);
+      
     }
     
   }

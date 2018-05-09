@@ -1,4 +1,10 @@
+import processing.net.*;
+//connect part
 class roll { //tests the movement
+  //****
+  //just have em read from the new server that was made
+  //***
+  //just rewrite this,ge tthe old code fform github probbably
   ArrayList<float[]> draws = new ArrayList();
   private String mode = "input";
   private int pos = 0;
@@ -12,8 +18,8 @@ class roll { //tests the movement
   Server[] serverList = new Server[0];
   spinner spin ;
   boolean start = false;
-  LAN SERVER;
-
+  
+  lan LAN;
   //*********
   //eg for 1231 make a talking port at 11231, it will lay stagnant until it gives clue to recconect
   //******
@@ -23,7 +29,8 @@ class roll { //tests the movement
     spin= new spinner();
     x = draws.get(pos)[0];
     y = draws.get(pos)[1];
-    SERVER = new LAN(new Server[0], new Server( THIS,1230));
+    LAN = new lan(THIS);
+    
   }
   
   private void parse() {
@@ -52,35 +59,31 @@ class roll { //tests the movement
   }
   void run(PApplet THIS) {
     //first get input from the user
-    SERVER.work(THIS);
-  }
+    LAN.run(THIS);
+  } 
   void sendSpinner() {
     start = true;
   }
   
-  void draw() {
+  void draw(PApplet THIS) {
     
     //lan
     
     displayMap();
     displayChar();
-    if (mode == "input") {
-      if (SERVER.connected && key == ' ') { //***experiemental code****
-      SERVER.sendSpinner();
+    this.run(THIS);
+    this.handleRoll();
+    String val = (LAN.getOutPut(0));
+    if (! (val.equals("f")) && rollCur == 0 ) {
+      println(val);
+      this.roll(Integer.parseInt(val));
       key = 'q';
     }
-    println(SERVER.doneSpin,SERVER.mode.equals("ping"));
-    if (SERVER.mode.equals("ping") && SERVER.doneSpin && (SERVER.curOut!= null) ) {
-      this.roll(Integer.parseInt(SERVER.curOut));
-      println("rolling" + SERVER.curOut);
-      spin.reset(); 
-      SERVER.resetSpin();
-      
-    }
-
-    }
+    
+  }
+  void handleRoll() {
     if (mode == "roll") {
-      println(rollCur);
+      
       if (rollCur > 0) {
       counter = 0;
       rollCur--;
@@ -202,233 +205,80 @@ class roll { //tests the movement
   
 }
 }
-//hey, if your ever bored just program all those modes into functions, it will make it look much clearner
-//that also apllies to the lan_spanish_C thing
-
 import processing.net.*;
-//send stop needs to be changed, isntea of fsending f or s, it ovverides that byb sending P
-class LAN {
-  //String mode = "getClient";
-  boolean doneSpin = false;
-  String mode = "assign";
-  String readVal;
-  boolean ready = true;
-  //boolean isConnected = false;
-  String send = " ";
-  String curOut;
-  boolean connected = false;
-  //private final int players = 4;
-  Server mover;
-  Server s;
-  Client c;
-  int curId = 0;
-  int curConnection = 0; //item in list currently connected to
-  Server[] serverList = new Server[0];
-  Client[] clientList = new Client[0]; //this should be equal to players
-  LAN(Server[] s_, Server mover_ ) {
-    serverList = s_; 
-    mover = mover_;
-    //s = mover_;
-  } 
-  void resetSpin() {
-    doneSpin = false;
-    curOut = null;
-  }
-  void sendStop(int id,PApplet thi) {
-     
-     s = new Server(thi , 1231); //testing this
-    
-    //wait until respsonse back, then send a disconnect
-    //then connect t next thing, bby sending something through mover
-  }
-  void connectTo() {
-    //this should be rmeovved
-    /*
-    c = mover.available();
-    if (c != null) {
-    c.write("1231");
-    }
-   
-   */
-    
-  }
+String ip = "10.3.2.141";
+ 
 
-  void disconnect() {
-    mode = "disconnect";
+class lan {
+  String mode = "getConnection";
+  Server turn;
+  Server[] servers = new Server[1];
+  Server currentPortServer; 
+
+  int id = 0;
+  
+  //another sevver ot print the current turn 
+  
+
+
+  Server entry; //this is where they all start before being repositioned
+  lan(PApplet THIS) {
+    turn = new Server(THIS,1999);
+    servers[0] = new Server(THIS,2001);
+    currentPortServer = new Server(THIS,2000);
   }
-  void sendSpinner() {
-    mode = "spinner";
+  void writeTurn(int id) {
+    turn.write(id);
   }
-  void createConnection(int id,PApplet b  ) {
-    connected = false;
-    //*****
-    //here is where it creates the new server
-    //***
-    mover.write(str(1231+id) );
-    if (ready) {
-    serverList = append(serverList, new Server(b,11231 + id));
-    s = new Server(b , 1231 + id); //this is the planned spot for server
-    
-    ready = false;
+  String getOutPut(int id) {
+    Client c= servers[id].available();
+    if (c  != null) {
+      String val = c.readString();
+      return val;
     }
+    else {
+     return "f";
+    }
+      
     
-     mode = "next";
   }
   
-  void work(PApplet b) {
-      
+  void run(PApplet THIS) {
+    handleConnections(THIS);
+    //getOutPut(0);
+    //if last item .read != null
     
-     if (mover.available() != null) { //i want this to mmean if something has been said
-       
-      
-       char val = mover.available().readString().charAt(0);
-     
-       if(val == 'c') {
-      
-       createConnection(curId,b);
-       
-       }
-       
-       //mover.cl;
-       //create space for new connection
-     }
-     //check for disconnect !! change code
-     
-       if (c != null && c.available() > 0) {
-         
-         if (c.readString().equals( "!") ) {
-           s.disconnect(c);
-           println("disconnect");
-         }
-       }
-     
-     if (mode == "next") { //attempt to connect !! MAKE SURE THIS STILL WORKS
-       //connectTo();
-       if (s.available() != null) {
-         mode = "getClient";
-         curId++;
-         background(255);
-         ready = true;
-         
-       }
-     }
-     
-    if (mode == "getClient") {
-     
-       c = s.available(); //if connected
-       
-       if (c != null) {
-          c.write(">"); //send data //eg tell it to start
-         
-          if (c.readString() != null) {
-            mode = "ping";
-          }
-          }
-       
-      }
-      
-      if (mode == "ping") {
-        connected = true;
-        c.write(send); //show that you are ready //it can also send informaiton tha tis important
-        String val = c.readString();
-       
-        if (val != null) { //if response back
-          
-          readVal = val;
-          mode = "read";
-          
-        }
-        
-      }
-      if (mode == "afterSpin") {
-        
-      
-        afterSpin();
-        
-        
-        
-      }
-      if (mode == "read") {
-         read();
-         println(curOut);
-         
-        }
-        
-        if (mode.equals("spinner") ) {
-          spinner();
-          
-        }
-        
-      
-      
-    
-    
-     
-  }
-  void afterSpin() {
-    c.write("R"); 
-        //for recieved
-        
-        if (c != null) {
-         
-        String val = c.readString();
-         if (val != null) {
-        String readVal = "";  
-        
-        for (int i = 0; val.length() > i; i++) {
-          readVal += val.charAt(i); 
-          
-          if (val.length() > i+1 && val.charAt(i+1) == '|') { //!!!!!potential bug here!!!!!!!
-            i = val.length() + 1;
-            println("hi");
-          }
-        }
-        println(readVal,"read");
-        if (!(readVal.charAt(0) == ('S'))) {
-        //c.write("Z"); 
-        println("read success");
-       
-        mode = "ping";
-        doneSpin = true;
-        
-        curOut = readVal;
-        }
-        
-         
-          }
-        
-        }
-  }
-  void read() {
-    String[] val = split(readVal,",");
-            if (val.length != 0 && curOut == null) {
-            curOut = val[0];
-            }
-            //line(float(val[0]),float(val[1]),float(val[2]),float(val[3 ]) );
-            
-        
-          
-          mode = "ping";
-  }
-  void ping() {
-    
-  }
-  void spinner() {
-    if (c!= null && connected) { //can remove this is already connected
-          c.write("S");
-          
-          if (c.available() > 0) {
-           String val = c.readString();
-           
-          if (val.length() > 1 && val.charAt(1) == '|') {
-            mode = "afterSpin"; //he has gotten the message
-            
-            curOut = str(val.charAt(0));
-            
-          }
-          
-          }
-          }
   }
   
+  
+  
+  
+  /*
+                            -----------************************-----------
+  */
+  void start() {
+    for (int i = 0; servers.length > i; i++) {
+      getOutPut(i); //just refreshes all of them
+    }
+  }
+  void handleConnections(PApplet THIS) {
+    //write current id
+    currentPortServer.write(str(2001 + id) );
+    // ----  ----  ----  ----  ----
+    
+    if (mode.equals("getConnection")) {
+      for (int i = 0; servers.length > i; i++) {
+      servers[i].write(str(i)) ;
+      }
+     
+    }
+    Client c = servers[servers.length-1].available();
+    if (c  != null && c.read() != -1) {
+      id++;
+      servers =(Server[]) append(servers, new Server(THIS,2001+id));
+    }
+  }
+   /*
+                            -----------************************-----------
+  */
 }
