@@ -194,6 +194,7 @@ class firstScreen {
     
   }
 }
+  
   private class gear extends button {
     private float turn = 0;
     private float turnSpeed = 0;

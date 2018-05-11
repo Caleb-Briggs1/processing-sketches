@@ -1,0 +1,32 @@
+2What is rica? *Tasty.
+1A mí me gusta la hamburguesa porque muy rica? +*Tasty *Other *Nutritious *Good looking
+2Que es un vestido? *dress
+2Que es un sombrero? *hat
+2Que es unas pijamas? *pajamas
+2Que es una chaqueta *jacket
+2Que es unos pantalones? *pants
+2Que es unos zapatos? *shoes
+2Que es una camisa? *shirt
+2Que es una blusa? *blouse
+1Que es un traje de baño? +*bathing suit *bathtub *iceberg lettuce *ladder
+1Que es una falda? +*skirt *curtains *toothbrush *sofa
+2What is red? *roja
+2Que es roja? *red
+2What is green? *verde
+2Que es verde? *green
+2What is brown? *marrones
+2Que es marrones? *brown
+2What is blue? *azule
+2Que es azules? *blue
+2What is yellow? *amarilla
+2Que es amarilla? *yellow
+2What is orange? *anaranjada
+2Que es anaranjada? *orange
+2What is white? *blanco
+2Que es blancos? *white
+2What is black? *negro
+2Que es negros? *black
+1What is pink? +*rosa *pinko *rasa *pico
+1Que es rosa? +*pink *rose *red *rough
+1What is purple? + *morado *romano *purpura *bezavida
+1Que es morado? +*purple *lightbulb *sad *flower
