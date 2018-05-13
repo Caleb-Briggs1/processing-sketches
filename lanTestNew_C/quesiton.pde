@@ -119,7 +119,8 @@ class question {
     if (type == '2') {
       String[] ques = split(b[id].replace('+','\n'),'*'); 
       ques2 = ques[0]; //
-      println(ques[1],"this is added");
+      
+     //// println(ques[1],"this is added");
       answer.add( ques[1].toLowerCase() ) ;
       
       //should be 1 long

@@ -7,9 +7,10 @@ import processing.net.*;
 //TEXT NEEDS TO DISPLAY IN WHITE
 //taking forever to run, maybe try to fix that
 //MIght e a problem here, it looks like it is swaping ot ur turn instead of continueing
-String ip = "10.3.2.141";
+//Extra your turn, so its not working right
+//String ip = "10.3.2.141";
 
-//String ip = "192.168.168.139";
+String ip = "192.168.168.150";
 //it appears multiple can be on the same thing, so we could use that or keep them on seperate connections
 //send seomthing to the server ur on to connect to it and create a new thing
 //CONSOLE LIKE MESSAGE BOx, FOR stuff like coNNECTED SUCCESFULLY
@@ -47,10 +48,10 @@ class client {
     }
     String stringRead = turn.readString();
     int turnRead = -1;
-    if (stringRead != null) {
+    if (stringRead != null && stringRead.length() < 10) {
       turnRead = Integer.parseInt(stringRead);
     }
-   println(turnRead);
+   //println(turnRead);
     if (turnRead == urId-2001) {
       //then it is your turn
       isTurn = true;
@@ -90,17 +91,20 @@ class client {
       if (mode == "urTurn" && Spin.done) {
       
       c.write(str(Spin.roll) + "|");
-      CONSOLE.addLine("\nSending number");
+     
+      CONSOLE.addLine("\nRolled a " + Spin.roll);
       mode = "question";
+      c.readString();
       spin = false;
     }
-   //println(mode);
+ 
     if (mode == "question") {
       String valueRead = c.readString();
       
        
       if (valueRead != null && valueRead.charAt(0) == 'Q' && parseQues(valueRead) != -1) { //that means a question
         mode = "inQuestion";
+        println(valueRead);
         ques.CUR_Q = parseQues(valueRead); //******!!!!!!
         //needs to read if there is a | at the end
       }
@@ -144,7 +148,11 @@ class client {
        if (done != null && done.equals("D") || !isTurn) { //keep getting null pointer here
          reset();
          println("DONE");
+         for (int i = 0; 10 > i; i++) {
+         delay(1000); //CLUTCH HERE //wait 10 seconds
+         }
        }
+       
        }
       }
       
@@ -194,6 +202,11 @@ class client {
     for (int i = 0; val.length() > i; i++) {
       if (val.charAt(i) == '|') {
         start = false;
+        if (!(res.length() > 10)) {
+       
+      
+          return Integer.parseInt(res);
+        }
       }
       if (start) {
         res += val.charAt(i);
@@ -205,13 +218,7 @@ class client {
       
       
     }
-    if (!start) {
-      if (!(res.length() > 10)) {
-       
-      
-      return Integer.parseInt(res);
-      }
-    }
+    
     
       return -1;
     

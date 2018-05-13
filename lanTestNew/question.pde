@@ -121,7 +121,7 @@ class question {
     String text = afterShuffle[id];
     textSize(15);
     textAlign(CENTER,CENTER);
-    fill(0);
+    fill(255);
     text(text,width/2,100);
   }
   int updateKeyRead( String keyRead) {

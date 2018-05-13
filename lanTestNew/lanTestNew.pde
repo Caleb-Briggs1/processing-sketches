@@ -8,6 +8,7 @@ import processing.net.*;
 //some things are messed up in the nexTurn,it should be changed ffrom the whole
 //advance to enxt turn boolean
 //set turn id to negative number after tile, so then it is nobodies turn!!*!*!*!*!*!*!!!*!**!
+//maybe allow rolling of 10
 class lan {
   String mode = "getConnection";
   Server turn;
@@ -85,5 +86,7 @@ void setup() {
 void draw() {
   background(225);
   MAP.draw(this);
-
+if (key == ' ') {
+  
+}
 }

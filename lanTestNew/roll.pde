@@ -20,19 +20,21 @@ class roll { //tests the movement
   spinner spin ;
   boolean correct = false;
   question ques = new question(); //need to get ffile
-  int[] poses = {0,0}; //HARD CODED ******!*!*!*!**!*!**!*!*!**!*!*!**!*
+  int[] poses = {0,0};
   boolean start = false;
   String[] images_ = {"fiest.png","demon.png","nothing.png","move1.png","move2.png","loseTurn.png","Trick_Translate.png"};
-  String[] chars_ = {"hat.png","maraca.png","pinata.png","taco.png"};
+  String[] chars_ = {"hat.png","maraca.png","pinata.png","taco.png","jalapeno.png","soccer.png"};
   PImage[] chars;
   PImage[] images;
   int gensTile = 0;
   int tile = 0;
+  float cameraY = 0;
+  float cameraX = 0;
   lan LAN;
   //*********
   //eg for 1231 make a talking port at 11231, it will lay stagnant until it gives clue to recconect
   //******
-
+  
   roll (PApplet THIS) {
     this.parse();
     images = new PImage[images_.length];
@@ -42,7 +44,7 @@ class roll { //tests the movement
     spin= new spinner();
     tiles = new int[draws.size()];
     for (int i = 0; tiles.length > i; i++) {
-      tiles[i] = int(random(images.length));
+      tiles[i] = int(random(2));
     }
     chars = new PImage[chars_.length];
     for (int i = 0; chars_.length > i; i++) {
@@ -53,7 +55,29 @@ class roll { //tests the movement
     LAN = new lan(THIS);
     
   }
-  
+  void moveCam() {
+    float curX = draws.get(poses[TURN_CUR])[0];
+    float curY = draws.get(poses[TURN_CUR])[1];
+   
+    if ( abs( (curX + cameraX)-width/2)  > 1 ) {
+      if ( curX + cameraX > width/2) {
+      cameraX -= 1;
+      }
+      else {
+        cameraX += 1;
+      }
+    }
+    
+    if ( abs( (curY + cameraY) - height/2)  > 1 ) {
+      if (curY + cameraY > height/2) {
+      cameraY -= 1;
+      }
+      else {
+        cameraY += 1;
+      }
+    }
+    
+  }
   private void parse() {
     draws = new ArrayList();
     String[] info = loadStrings("mapTest.txt");
@@ -70,17 +94,13 @@ class roll { //tests the movement
   }
   }
   void displayMap() {
-    imageMode(CORNER);
+    imageMode(CENTER);
 
      for (int i = 0; draws.size() > i; i++) {
-       
-        
-      
-       
-     
+
       //image(images[tiles[i]],draws.get(i)[0],draws.get(i)[1],draws.get(i)[2],draws.get(i)[2]);
-       stroke(tiles[i]* 55,tiles[i] * 15,0);
-      hexagon(draws.get(i)[0],draws.get(i)[1],draws.get(i)[2]); //maybe pre-process this
+       stroke(tiles[i]* 205,tiles[i] * 15,0);
+      hexagon(draws.get(i)[0]+ cameraX,draws.get(i)[1] + cameraY,draws.get(i)[2] ); //maybe pre-process this
   
 }
  
@@ -91,7 +111,8 @@ class roll { //tests the movement
         x = draws.get(poses[i])[0];
         y = draws.get(poses[i])[1];
         imageMode(CENTER);
-        image(chars[i],x,y,45,45);
+        image(chars[i],x+ cameraX,y+ cameraY,45,45);
+        
         /*
         fill(i*250);
       ellipseMode(CENTER);
@@ -110,17 +131,21 @@ class roll { //tests the movement
   void draw(PApplet THIS) {
     
     //lan
-   
+   println(CUR_QUES);
+    
     if (drawMap) {
     displayMap();
     displayChar();
     }
     if(!(mode.equals("tileShow"))) {
     this.runTurn(TURN_CUR);
+    
     }
     else {
       this.runTurn(-1);
+      
     }
+    this.moveCam();
     this.run(THIS);
     this.handleRoll();
      if (mode.equals("afterTile")) {
@@ -248,22 +273,39 @@ class roll { //tests the movement
     if (type == 0) {
       println("move 1");
       ques = new question();
-      this.roll(1);
+      //this.roll(1);
+       poses[TURN_CUR] += 1;
       advanceTurnAfterRoll = true;    
       mode = "afterTile";
       //nextTurn(); //CHANGE THIS IF YOU WANT TO AMKE THE TILES ASK MANY QUESTIONS !!!!!!!!!!
       
     }
-    if (type == 1 || type > 1) {
+    if (type == 1) {
       println("move 2");
-      this.roll(2);
+      
       ques = new question();
-              //poses[TURN_CUR] += 2;
+      poses[TURN_CUR] += 2;
         mode = "afterTile";      
         advanceTurnAfterRoll = true;      
       //nextTurn();
       
     }
+    if (tile > 1) {
+      println("NOTHING");
+      
+      ques = new question();
+      
+        mode = "afterTile";      
+        advanceTurnAfterRoll = true;  
+    }
+    /*
+    if (type == 2) {
+      //make a lose turn variable
+    }
+    if (type == 3) {
+      //fiesta tile
+    }
+    */
     
   }
   void runTurn(int id) {
@@ -276,6 +318,9 @@ class roll { //tests the movement
     TURN_CUR++;
     if (TURN_CUR == LAN.id) { //5 here just represnts the max turn 
       TURN_CUR  = 0;
+    }
+    if (TURN_CUR >= poses.length ) {
+      poses = append(poses,0);
     }
     advanceTurnAfterRoll = false;
     drawMap = true;
